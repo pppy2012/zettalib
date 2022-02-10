@@ -1,0 +1,321 @@
+.\" Man page generated from reStructuredText.
+.
+.TH "MYDUMPER" "1" "Jan 25, 2022" "0.11.6" "mydumper"
+.SH NAME
+mydumper \- 
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.SH SYNOPSIS
+.sp
+\fBmydumper\fP [\fI\%OPTIONS\fP]
+.SH DESCRIPTION
+.sp
+\fBmydumper\fP is a tool used for backing up MySQL database servers much
+faster than the mysqldump tool distributed with MySQL.  It also has the
+capability to retrieve the binary logs from the remote server at the same time
+as the dump itself.  The advantages of mydumper are:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+Parallelism (hence, speed) and performance (avoids expensive character set conversion routines, efficient code overall)
+.IP \(bu 2
+Easier to manage output (separate files for tables, dump metadata, etc, easy to view/parse data)
+.IP \(bu 2
+Consistency \- maintains snapshot across all threads, provides accurate master and slave log positions, etc
+.IP \(bu 2
+Manageability \- supports PCRE for specifying database and tables inclusions and exclusions
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SH OPTIONS
+.sp
+The \fBmydumper\fP tool has several available options:
+.INDENT 0.0
+.TP
+.B \-\-help, \-?
+Show help text
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-defaults\-file
+Use the given option file. If the file does not exist or is otherwise inaccessible, no failure occurs
+.sp
+Its possible to authenticate via –defaults\-file.
+A section [mydumper]/[myloader] or [client] is needed for authentication
+.sp
+[mydumper]
+user=
+password=
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-host, \-h
+Hostname of MySQL server to connect to (default localhost)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-user, \-u
+MySQL username with the correct privileges to execute the dump
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-password, \-p
+The corresponding password for the MySQL user
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-port, \-P
+The port for the MySQL connection.
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+For localhost TCP connections use 127.0.0.1 for \fI\%\-\-host\fP\&.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-socket, \-S
+The UNIX domain socket file to use for the connection
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-database, \-B
+Database to dump
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-tables\-list, \-T
+A comma separated list of tables to dump
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-threads, \-t
+The number of threads to use for dumping data, default is 4
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+Other threads are used in mydumper, this option does not control these
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-outputdir, \-o
+Output directory name, default is export\-YYYYMMDD\-HHMMSS
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-statement\-size, \-s
+The maximum size for an insert statement before breaking into a new
+statement, default 1,000,000 bytes
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-rows, \-r
+Split table into chunks of this many rows, default unlimited
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-compress, \-c
+Compress the output files
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-compress\-input, \-C
+Use client protocol compression for connections to the MySQL server
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-build\-empty\-files, \-e
+Create empty dump files if there is no data to dump
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-regex, \-x
+A regular expression to match against database and table
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-omit\-from\-file, \-O
+File containing a list of database.table entries to skip, one per line; the
+skipped entries have precedence over patterns specified by the regex option
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-ignore\-engines, \-i
+Comma separated list of storage engines to ignore
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-insert\-ignore, \-N
+Dump rows with INSERT IGNORE INTO instead of INSERT INTO
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-schemas, \-m
+Do not dump schemas with the data
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-data, \-d
+Do not dump table data
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-triggers, \-G
+Dump triggers
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-events, \-E
+Dump events
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-routines, \-R
+Dump stored procedures and functions
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-views, \-W
+Do not dump views
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-long\-query\-retries
+Retry checking for long queries, default 0 (do not retry)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-long\-query\-retry\-interval
+Time to wait before retrying the long query check in seconds, default 60
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-long\-query\-guard, \-l
+Timeout for long query execution in seconds, default 60
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-kill\-long\-queries, \-K
+Kill long running queries instead of aborting the dump
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-version, \-V
+Show the program version and exit
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-verbose, \-v
+The verbosity of messages.  0 = silent, 1 = errors, 2 = warnings, 3 = info.
+Default is 2.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-binlogs, \-b
+Get the binlogs from the server as well as the dump files (You need to compile with \-DWITH_BINLOG=ON)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-daemon, \-D
+Enable daemon mode
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-snapshot\-interval, \-I
+Interval between each dump snapshot (in minutes), requires
+\fI\%\-\-daemon\fP, default 60 (minutes)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-logfile, \-L
+A file to log mydumper output to instead of console output.  Useful for
+daemon mode.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-locks, \-k
+Do not execute the temporary shared read lock.
+.sp
+\fBWARNING:\fP
+.INDENT 7.0
+.INDENT 3.5
+This will cause inconsistent backups.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-no\-backup\-locks
+Do not use Percona Backup Locks
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-[skip\-]tz\-utc
+SET TIME_ZONE=’+00:00’ at top of dump to allow dumping of TIMESTAMP data
+when a server has data in different time zones or data is being moved
+between servers with different time zones, defaults to on use –skip\-tz\-utc
+to disable.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-less\-locking
+Minimize locking time on InnoDB tables grabbing a LOCK TABLE … READ
+on all non\-innodb tables.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-chunk\-filesize \-F
+Split tables into chunks of this output file size. This value is in MB
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-success\-on\-1146
+Not increment error count and Warning instead of Critical in case of table doesn’t exist
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-use\-savepoints
+Use savepoints to reduce metadata locking issues, needs SUPER privilege
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-complete\-insert
+Use complete INSERT statements that include column names.
+.UNINDENT
+.SH AUTHOR
+Andrew Hutchings
+.SH COPYRIGHT
+2011, Andrew Hutchings
+.\" Generated by docutils manpage writer.
+.

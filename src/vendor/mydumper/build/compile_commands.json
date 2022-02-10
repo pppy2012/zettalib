@@ -1,0 +1,77 @@
+[
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/myloader.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/myloader.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/myloader.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/server_detect.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/server_detect.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/server_detect.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/connection.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/connection.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/connection.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/getPassword.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/getPassword.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/getPassword.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/logging.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/logging.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/logging.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/set_verbose.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/set_verbose.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/set_verbose.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/myloader.dir/common.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/common.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/common.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/mydumper.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/mydumper.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/mydumper.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/server_detect.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/server_detect.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/server_detect.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/g_unix_signal.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/g_unix_signal.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/g_unix_signal.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/connection.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/connection.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/connection.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/getPassword.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/getPassword.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/getPassword.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/logging.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/logging.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/logging.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/set_verbose.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/set_verbose.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/set_verbose.c"
+},
+{
+  "directory": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+  "command": "/opt/rh/gcc-toolset-10/root/usr/bin/x86_64-redhat-linux-gcc-10  -I/usr/include/mysql -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -Wall -Wno-deprecated-declarations -Wunused -Wwrite-strings -Wno-strict-aliasing -Wextra -Wshadow -O3 -g -Werror -I/usr/include/mysql -m64 -g -o CMakeFiles/mydumper.dir/common.c.o -c /home/summerxwu/code/kunlun/zettalib/vendor/mydumper/common.c",
+  "file": "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/common.c"
+}
+]

@@ -1,0 +1,239 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Myloader Usage &#8212; mydumper 0.11.6 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Output Files" href="files.html" />
+    <link rel="prev" title="Mydumper Usage" href="mydumper_usage.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="files.html" title="Output Files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mydumper_usage.html" title="Mydumper Usage"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">mydumper 0.11.6 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="myloader-usage">
+<h1>Myloader Usage<a class="headerlink" href="#myloader-usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<p><strong class="program">myloader</strong> <a class="reference internal" href="#cmdoption-myloader-directory"><code class="xref std std-option docutils literal notranslate"><span class="pre">--directory</span></code></a> = /path/to/mydumper/backup [<a class="reference internal" href="#myloader-options-label"><span class="std std-ref">OPTIONS</span></a>]</p>
+</div>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p><strong class="program">myloader</strong> is a tool used for multi-threaded restoration of mydumper
+backups.</p>
+</div>
+<div class="section" id="options">
+<span id="myloader-options-label"></span><h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<p>The <strong class="program">myloader</strong> tool has several available options:</p>
+<dl class="option">
+<dt id="cmdoption-myloader-help">
+<code class="descname">--help</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-?</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show help text</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-defaults-file">
+<code class="descname">--defaults-file</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-defaults-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the given option file. If the file does not exist or is otherwise inaccessible, no failure occurs</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-host">
+<code class="descname">--host</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-h</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hostname of MySQL server to connect to (default localhost)</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-user">
+<code class="descname">--user</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-u</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-user" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL username with the correct privileges to execute the restoration</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-password">
+<code class="descname">--password</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-p</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-password" title="Permalink to this definition">¶</a></dt>
+<dd><p>The corresponding password for the MySQL user</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-port">
+<code class="descname">--port</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-P</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-port" title="Permalink to this definition">¶</a></dt>
+<dd><p>The port for the MySQL connection.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For localhost TCP connections use 127.0.0.1 for <a class="reference internal" href="#cmdoption-myloader-host"><code class="xref std std-option docutils literal notranslate"><span class="pre">--host</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-socket">
+<code class="descname">--socket</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-S</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-socket" title="Permalink to this definition">¶</a></dt>
+<dd><p>The UNIX domain socket file to use for the connection</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-threads">
+<code class="descname">--threads</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-t</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-threads" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of threads to use for restoring data, default is 4</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-version">
+<code class="descname">--version</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-V</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the program version and exit</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-compress-protocol">
+<code class="descname">--compress-protocol</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-C</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-compress-protocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use client protocol compression for connections to the MySQL server</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-directory">
+<code class="descname">--directory</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-d</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>The directory of the mydumper backup to restore</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-database">
+<code class="descname">--database</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-B</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-database" title="Permalink to this definition">¶</a></dt>
+<dd><p>An alternative database to load the dump into</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For use with single database dumps.  When using with multi-database dumps
+that have duplicate table names in more than one database it may cause
+errors.  Alternatively this scenario may give unpredictable results with
+<a class="reference internal" href="#cmdoption-myloader-overwrite-tables"><code class="xref std std-option docutils literal notranslate"><span class="pre">--overwrite-tables</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-source-db">
+<code class="descname">--source-db</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-s</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-source-db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Database to restore, useful in combination with –database</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-queries-per-transaction">
+<code class="descname">--queries-per-transaction</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-q</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-queries-per-transaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of INSERT queries to execute per transaction during restore, default
+is 1000.</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-overwrite-tables">
+<code class="descname">--overwrite-tables</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-o</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-overwrite-tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop any existing tables when restoring schemas</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-enable-binlog">
+<code class="descname">--enable-binlog</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-e</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-enable-binlog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log the data loading in the MySQL binary log if enabled (off by default)</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-myloader-verbose">
+<code class="descname">--verbose</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">-v</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-myloader-verbose" title="Permalink to this definition">¶</a></dt>
+<dd><p>The verbosity of messages.  0 = silent, 1 = errors, 2 = warnings, 3 = info.
+Default is 2.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Myloader Usage</a><ul>
+<li><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mydumper_usage.html"
+                        title="previous chapter">Mydumper Usage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="files.html"
+                        title="next chapter">Output Files</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/myloader_usage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="files.html" title="Output Files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mydumper_usage.html" title="Mydumper Usage"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">mydumper 0.11.6 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, Andrew Hutchings.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,133 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						5,
+						6
+					]
+				},
+				{
+					"build" : "docs",
+					"hasInstallRule" : true,
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "docs",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "mydumper",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL::@25ace4044b5cefe8d37f",
+					"jsonFile" : "target-ALL-Debug-c61b0a4ecdf7406ea050.json",
+					"name" : "ALL",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dist::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dist-Debug-8473c30cb4d3fd0c5ba0.json",
+					"name" : "dist",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "doc_html::@25ace4044b5cefe8d37f",
+					"jsonFile" : "target-doc_html-Debug-f6b782b114fdb8e0bbe4.json",
+					"name" : "doc_html",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "doc_man::@25ace4044b5cefe8d37f",
+					"jsonFile" : "target-doc_man-Debug-0fa868f0166756a6bba2.json",
+					"name" : "doc_man",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "doc_sources::@25ace4044b5cefe8d37f",
+					"jsonFile" : "target-doc_sources-Debug-100fc29d4f5b177684dc.json",
+					"name" : "doc_sources",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "mydumper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-mydumper-Debug-1f2ec7421315c4da5266.json",
+					"name" : "mydumper",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "myloader::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-myloader-Debug-024902dd6e98f6cd996a.json",
+					"name" : "myloader",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper/build",
+		"source" : "/home/summerxwu/code/kunlun/zettalib/vendor/mydumper"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}
