@@ -22,9 +22,18 @@ public:
     va_end(arg);
     return retVal;
   }
+  int setExtraErr(const char *fmt, ...) __attribute__((format(printf, 2, 3))) {
+    va_list arg;
+    va_start(arg, fmt);
+
+    int retVal = vsnprintf(m_errbuf_, sizeof(m_errbuf_) - 1, fmt, arg);
+    va_end(arg);
+    return retVal;
+  }
 
   char *getErr() { return m_errbuf_; }
 
+  char *getExtraErr() { return m_errbuf_; }
   void removeErr() { m_errbuf_[0] = '\0'; }
 
 private:

@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
+#include <cassert>
 
 // This moudler contain some operation to mysql
 
@@ -137,7 +138,10 @@ public:
   bool Parse(MYSQL_RES *);
   void Clean();
 
-  MysqlResRow &operator[](unsigned int index) { return *(result_vec_[index]); }
+  MysqlResRow &operator[](unsigned int index) {
+    assert(index < result_vec_.size());
+    return *(result_vec_[index]);
+  }
   unsigned int GetResultLinesNum() const { return result_vec_.size(); }
   unsigned int get_fields_num() const { return fields_num_; }
 

@@ -18,7 +18,7 @@
 
 # Libraries
 *.lib
-*.a
+#*.a
 *.la
 *.lo
 
@@ -57,11 +57,12 @@ build/*
 demo/*
 
 # vendor the third party
-vendor/*
-!vendor/include/*
-!vendor/lib/*
+src/vendor/*
+!src/vendor/include/*
+!src/vendor/lib/*
 
 # tag file
+.vscode/*
 CsdbBuild.sh
 GPATH
 GRTAGS
