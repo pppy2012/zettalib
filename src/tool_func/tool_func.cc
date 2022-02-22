@@ -7,18 +7,18 @@
 #include <arpa/inet.h>
 #include <cerrno>
 #include <dirent.h>
+#include <limits.h>
 #include <net/if.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <string>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <vector>
-#include <string>
-#include <stdlib.h>
-#include <limits.h>
 
 namespace kunlun {
 int GetIpFromInterface(const char *interface_name, char *addr) {
@@ -64,13 +64,26 @@ int GetFileListFromPath(const char *path,
   closedir(dir_ptr);
   return 0;
 }
-std::string ConvertToAbsolutePath(const char *path){
+std::string ConvertToAbsolutePath(const char *path) {
   char abs_path_buff[2048] = {'\0'};
-  if (realpath(path,abs_path_buff) == nullptr){
+  if (realpath(path, abs_path_buff) == nullptr) {
     return "";
   }
   return std::string(abs_path_buff);
 }
 
+std::string StringReplace(const std::string &orig, const std::string &sbstr,
+                           const std::string &dest) {
+  std::string result = orig;
+  size_t index = 0;
+  if (sbstr.empty()) {
+    return result;
+  }
+  while ((index = result.find(sbstr, index)) != std::string::npos) {
+    result.replace(index, sbstr.length(), dest);
+    index += dest.length();
+  }
+  return result;
+}
 
 } // namespace kunlun

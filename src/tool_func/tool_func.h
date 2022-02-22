@@ -11,4 +11,6 @@ int GetIpFromInterface(const char *interface_name, char *addr);
 // File/Dir related
 int GetFileListFromPath(const char *path, std::vector<std::string> &file_names);
 std::string ConvertToAbsolutePath(const char *path);
+std::string StringReplace(const std::string &orig, const std::string &sbstr,
+                          const std::string &dest);
 } // namespace kunlun
