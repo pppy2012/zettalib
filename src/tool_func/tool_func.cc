@@ -21,6 +21,17 @@
 #include <vector>
 
 namespace kunlun {
+std::vector<std::string> StringTokenize(std::string orig,
+                                        const char *seperator) {
+  std::vector<std::string> result;
+  char *str = const_cast<char *>(orig.c_str());
+  char *token = strtok(str,seperator);
+  while(token != nullptr){
+    result.push_back(std::string(token));
+    token = strtok(nullptr,seperator);
+  }
+  return result;
+}
 int GetIpFromInterface(const char *interface_name, char *addr) {
   int fd;
   struct ifreq ifr;
@@ -73,7 +84,7 @@ std::string ConvertToAbsolutePath(const char *path) {
 }
 
 std::string StringReplace(const std::string &orig, const std::string &sbstr,
-                           const std::string &dest) {
+                          const std::string &dest) {
   std::string result = orig;
   size_t index = 0;
   if (sbstr.empty()) {
