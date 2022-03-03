@@ -8,6 +8,7 @@
 #include "errno.h"
 #include <cstring>
 #include <fcntl.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -206,6 +207,11 @@ bool BiodirectPopen::popenImpl() {
       }
       ::close(stdin_parent_write_fd[0]);
     }
+
+    if (wait_status_) {
+      // will block
+      return waitStatus();
+    }
     return true;
   }
   // child proc
@@ -239,6 +245,39 @@ bool BiodirectPopen::popenImpl() {
   /* can not reach here */
   return false;
 }
+
+int BiodirectPopen::get_chiled_status()const{
+  if(wait_status_){
+    return child_return_code_;
+  }
+  return -100;
+}
+
+bool BiodirectPopen::waitStatus() {
+  pid_t ret;
+  int status;
+  if (child_pid_ >= 0) {
+    ret = waitpid(child_pid_, &status, 0);
+    if (ret != child_pid_) {
+      setErr("waitpid() failed: %s", strerror(errno));
+      return false;
+    }
+    // inspect the status;
+    if (WIFEXITED(status)) {
+      child_return_code_ = WEXITSTATUS(status);
+      return true;
+    } else if (WIFSIGNALED(status)) {
+      child_return_code_ = WTERMSIG(status);
+      setErr("child is terminited by the signal %d", child_return_code_);
+      return false;
+    }
+    setErr("child unknow error");
+    return false;
+  }
+  setErr("child pid is invalid, means fork() failed");
+  return false;
+}
+
 BiodirectPopen::~BiodirectPopen() {
   int status;
   if (child_pid_ >= 0) {

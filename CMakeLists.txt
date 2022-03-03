@@ -39,8 +39,8 @@ INSTALL(TARGETS zettalib ARCHIVE DESTINATION lib)
 INSTALL(FILES 
   "${ERRORCUP_INSTALL_FIELS}" 
   "${OP_MYSQL_INSTALL_FIELS}" 
-  "/home/summerxwu/code/kunlun/zettalib/src/procenv/biodirectpopen.h""/home/summerxwu/code/kunlun/zettalib/src/procenv/proc_env.h"
-  #"${PROCENV_INSTALL_FIELS}" 
+  "${PROJECT_SOURCE_DIR}/src/procenv/biodirectpopen.h"
+  "${PROJECT_SOURCE_DIR}/src/procenv/proc_env.h"
   "${ZTHREAD_INSTALL_FIELS}" 
   "${TOOL_FUNC_INSTALL_FIELS}" 
   DESTINATION include/zettalib)

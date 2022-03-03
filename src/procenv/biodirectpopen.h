@@ -25,7 +25,7 @@ class BiodirectPopen : public kunlun::ErrorCup {
 public:
   explicit BiodirectPopen(const char *command)
       : command_(command), read_from_child_(true), write_to_child_(false),
-        set_close_on_exe_(true) {
+        set_close_on_exe_(true), wait_status_(true) {
     for (int i = 0; i < 2; i++) {
       stdout_parent_read_fd[i] = -1;
       stderr_parent_read_fd[i] = -1;
@@ -40,6 +40,8 @@ public:
 private:
   bool popenImpl();
   void pclose();
+  // Get and inspect the status return by child
+  bool waitStatus();
 
 public:
   bool Launch(const char *mode);
@@ -55,6 +57,8 @@ public:
   FILE *getReadStdOutFp() const;
   FILE *getReadStdErrFp() const;
 
+  int get_chiled_status() const;
+
   void closeAllFd();
 
 private:
@@ -67,6 +71,9 @@ private:
   bool read_from_child_;
   bool write_to_child_;
   bool set_close_on_exe_;
+  // Get the child status or not
+  bool wait_status_;
+  int child_return_code_;
   int stdout_parent_read_fd[2];
   int stderr_parent_read_fd[2];
   int stdin_parent_write_fd[2];
