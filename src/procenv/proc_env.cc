@@ -48,18 +48,20 @@ namespace kunlun
 
     umask(0);
 
-    // close fd
-    struct rlimit rl;
-    getrlimit(RLIMIT_NOFILE, &rl);
-    if (rl.rlim_max == RLIM_INFINITY)
-    {
-      rl.rlim_max = 1024;
-    }
-    unsigned int i = 3; // we preserve the 0,1,2 fd
-    for (; i < rl.rlim_max; i++)
-    {
-      close(i);
-    }
+ /* The reason why we comment such fragement below related to trac ticket #xxx */
+ // 
+ //   // close fd
+ //   struct rlimit rl;
+ //   getrlimit(RLIMIT_NOFILE, &rl);
+ //   if (rl.rlim_max == RLIM_INFINITY)
+ //   {
+ //     rl.rlim_max = 1024;
+ //   }
+ //   unsigned int i = 3; // we preserve the 0,1,2 fd
+ //   for (; i < rl.rlim_max; i++)
+ //   {
+ //     close(i);
+ //   }
 
     return;
   }

@@ -25,10 +25,10 @@ std::vector<std::string> StringTokenize(std::string orig,
                                         const char *seperator) {
   std::vector<std::string> result;
   char *str = const_cast<char *>(orig.c_str());
-  char *token = strtok(str,seperator);
-  while(token != nullptr){
+  char *token = strtok(str, seperator);
+  while (token != nullptr) {
     result.push_back(std::string(token));
-    token = strtok(nullptr,seperator);
+    token = strtok(nullptr, seperator);
   }
   return result;
 }
@@ -95,6 +95,17 @@ std::string StringReplace(const std::string &orig, const std::string &sbstr,
     index += dest.length();
   }
   return result;
+}
+
+bool CheckFileExists(const char *path) {
+  std::string abs_path = ConvertToAbsolutePath(path);
+  FILE *fp = fopen(abs_path.c_str(), "r");
+  if (fp != nullptr) {
+    // file exists
+    fclose(fp);
+    return true;
+  }
+  return false;
 }
 
 } // namespace kunlun

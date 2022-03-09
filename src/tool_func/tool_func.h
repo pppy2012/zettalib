@@ -13,5 +13,7 @@ int GetFileListFromPath(const char *path, std::vector<std::string> &file_names);
 std::string ConvertToAbsolutePath(const char *path);
 std::string StringReplace(const std::string &orig, const std::string &sbstr,
                           const std::string &dest);
-std::vector<std::string> StringTokenize(std::string orig,const char * seperator);
+std::vector<std::string> StringTokenize(std::string orig,
+                                        const char *seperator);
+bool CheckFileExists(const char *path);
 } // namespace kunlun
