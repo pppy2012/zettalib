@@ -9,6 +9,7 @@
 #include <sys/time.h>
 namespace kunlun {
 // Interval time checker in milsecond level
+// 1 sec = 1 * 1000000 microsecond
 class MicroSecInterval {
 public:
   explicit MicroSecInterval(time_t interval_microsec,
