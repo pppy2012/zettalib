@@ -20,6 +20,7 @@ add_subdirectory(src/zthread)
 add_subdirectory(src/procenv)
 add_subdirectory(src/error)
 add_subdirectory(src/tool_func)
+add_subdirectory(src/interval)
 
 
 configure_file(src/sys_config.h.in sys_config.h)
@@ -31,7 +32,7 @@ target_include_directories(zettalib PUBLIC
  "${PROJECT_SOURCE_DIR}/src/vendor/include"
 )
 link_directories(${CMAKE_SOURCE_DIR}/src/vendor/lib)
-target_link_libraries(zettalib op_mysql procenv error zthread tool_func)
+target_link_libraries(zettalib op_mysql procenv error zthread tool_func interval)
 
 set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/output")
 
@@ -43,4 +44,5 @@ INSTALL(FILES
   "${PROJECT_SOURCE_DIR}/src/procenv/proc_env.h"
   "${ZTHREAD_INSTALL_FIELS}" 
   "${TOOL_FUNC_INSTALL_FIELS}" 
+  "${INTERVAL_INSTALL_FIELS}" 
   DESTINATION include/zettalib)

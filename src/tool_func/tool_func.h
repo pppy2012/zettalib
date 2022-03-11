@@ -16,4 +16,5 @@ std::string StringReplace(const std::string &orig, const std::string &sbstr,
 std::vector<std::string> StringTokenize(std::string orig,
                                         const char *seperator);
 bool CheckFileExists(const char *path);
+
 } // namespace kunlun
