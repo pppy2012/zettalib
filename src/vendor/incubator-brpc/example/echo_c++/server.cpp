@@ -79,6 +79,7 @@ int main(int argc, char* argv[]) {
 
     // Generally you only need one Server.
     brpc::Server server;
+    brpc::Server server2;
 
     // Instance of your service.
     example::EchoServiceImpl echo_service_impl;
@@ -96,6 +97,10 @@ int main(int argc, char* argv[]) {
     brpc::ServerOptions options;
     options.idle_timeout_sec = FLAGS_idle_timeout_s;
     if (server.Start(FLAGS_port, &options) != 0) {
+        LOG(ERROR) << "Fail to start EchoServer";
+        return -1;
+    }
+    if (server2.Start(8009, &options) != 0) {
         LOG(ERROR) << "Fail to start EchoServer";
         return -1;
     }
