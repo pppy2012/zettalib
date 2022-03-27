@@ -59,6 +59,8 @@ demo/*
 # vendor the third party
 src/vendor/vendor_output/
 src/vendor/build_log
+src/vendor/openssl-OpenSSL_1_1_1-stable/test
+src/vendor/openssl-OpenSSL_1_1_1-stable/fuzz
 
 # tag file
 .vscode/*

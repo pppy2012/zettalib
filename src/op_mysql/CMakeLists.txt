@@ -7,5 +7,5 @@ add_library(op_mysql OBJECT ${OP_MYSQL_SRC} ${OP_MYSQL_HEADER})
 target_include_directories(op_mysql INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(op_mysql PUBLIC 
   "${PROJECT_SOURCE_DIR}/src"
-  "${PROJECT_SOURCE_DIR}/src/vendor/include"
+  "${PROJECT_SOURCE_DIR}/src/vendor/vendor_output/include"
   )

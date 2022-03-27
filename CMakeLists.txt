@@ -29,9 +29,9 @@ add_library(zettalib STATIC src/sys_config.cc)
 target_include_directories(zettalib PUBLIC
  "${PROJECT_BINARY_DIR}"
  "${PROJECT_SOURCE_DIR}/src"
- "${PROJECT_SOURCE_DIR}/src/vendor/include"
+ "${PROJECT_SOURCE_DIR}/src/vendor/vendor_output/include"
 )
-link_directories(${CMAKE_SOURCE_DIR}/src/vendor/lib)
+link_directories(${CMAKE_SOURCE_DIR}/src/vendor/vendor_output/lib)
 target_link_libraries(zettalib op_mysql procenv error zthread tool_func interval)
 
 set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/output")

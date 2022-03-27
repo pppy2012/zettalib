@@ -13,5 +13,5 @@ add_library(procenv OBJECT ${PROCENV_SRC} ${PROCENV_HEADER})
 target_include_directories(procenv INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(procenv PUBLIC 
   "${PROJECT_SOURCE_DIR}/src"
-  "${PROJECT_SOURCE_DIR}/src/vendor/include"
+  "${PROJECT_SOURCE_DIR}/src/vendor/vendor_output/include"
   )
