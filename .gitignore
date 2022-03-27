@@ -8,9 +8,9 @@
 *.elf
 
 # Linker output
-*.ilk
-*.map
-*.exp
+#*.ilk
+#*.map
+#*.exp
 
 # Precompiled Headers
 *.gch
@@ -57,9 +57,8 @@ build/*
 demo/*
 
 # vendor the third party
-src/vendor/*
-!src/vendor/include/*
-!src/vendor/lib/*
+src/vendor/vendor_output/
+src/vendor/build_log
 
 # tag file
 .vscode/*

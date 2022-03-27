@@ -1,0 +1,12 @@
+USE performance_schema;
+truncate table events_statements_history_long;
+SELECT 1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1;
+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1
+74
+####################################
+# QUERYING PS STATEMENT DIGEST
+####################################
+SELECT event_name, digest, digest_text, sql_text FROM events_statements_history_long;
+event_name	digest	digest_text	sql_text
+statement/sql/select	cf4e66f3ef1e0c9905538c220053cbda	SELECT ? + ? + 	SELECT ...
+statement/sql/truncate	f874a3c85ab326928c042dbd544916f9	TRUNCATE TABLE 	truncat...
