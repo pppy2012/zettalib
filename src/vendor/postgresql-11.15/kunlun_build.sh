@@ -4,7 +4,10 @@ cd ../
 source ./common.sh
 cd -
 
-make clean;make -j10;
+
+make clean;
+./configure
+make -j10;
 cp ./src/interfaces/libpq/libpq.* ${VENDOR_INSTALL_PREFIX}/lib
 tar xzf ./preserved_header.tgz -C ${VENDOR_INSTALL_PREFIX}/include 
 

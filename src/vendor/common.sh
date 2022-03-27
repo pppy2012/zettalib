@@ -12,6 +12,7 @@ VENDOR_LIST+=("incubator-brpc")
 VENDOR_LIST+=("braft")
 VENDOR_LIST+=("mariadb-10.6.7")
 VENDOR_LIST+=("postgresql-11.15")
+VENDOR_LIST+=("rapidjson-1.1.0")
 
 function EXISTS() (
 for file in ${RESULT_FILES[@]}
