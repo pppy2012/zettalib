@@ -59,6 +59,8 @@ src/vendor/vendor_output/
 src/vendor/build_log
 src/vendor/openssl-OpenSSL_1_1_1-stable/test
 src/vendor/openssl-OpenSSL_1_1_1-stable/fuzz
+src/vendor/openssl-OpenSSL_1_1_1-stable/Makefile
+src/vendor/openssl-OpenSSL_1_1_1-stable/crypto/buildinf.h
 
 # tag file
 .vscode/*
