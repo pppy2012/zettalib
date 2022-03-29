@@ -6,7 +6,7 @@ cd -
 
 rm -r build;
 mkdir build && cd build;
-cmake ../ -DCMAKE_INSTALL_PREFIX=${VENDOR_INSTALL_PREFIX} -DWITH_SSL=${VENDOR_INSTALL_PREFIX}
+cmake ../ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=${VENDOR_INSTALL_PREFIX} -DWITH_SSL=${VENDOR_INSTALL_PREFIX}
 cd libmariadb/libmariadb
 make -j10;
 mv ./libmariadb* ${VENDOR_INSTALL_PREFIX}/lib
