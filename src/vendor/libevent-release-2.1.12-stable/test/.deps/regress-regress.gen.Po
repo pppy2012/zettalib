@@ -1,0 +1,3 @@
+test/regress-regress.gen.o: test/regress.gen.c /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
