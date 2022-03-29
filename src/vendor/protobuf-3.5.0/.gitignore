@@ -19,7 +19,7 @@
 #autom4te.cache
 
 # downloaded files
-gmock
+#gmock
 
 # in-tree configure-generated files
 #Makefile
