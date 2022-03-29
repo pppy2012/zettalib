@@ -22,17 +22,17 @@
 gmock
 
 # in-tree configure-generated files
-Makefile
-src/Makefile
-/config.h
-config.log
-config.status
-
-libtool
-protobuf-lite.pc
-protobuf.pc
-.deps
-stamp-h1
+#Makefile
+#src/Makefile
+#/config.h
+#config.log
+#config.status
+#
+#libtool
+#protobuf-lite.pc
+#protobuf.pc
+#.deps
+#stamp-h1
 
 # in-tree build products
 *.o
