@@ -6,7 +6,7 @@ cd -
 
 make clean;
 ./autogen.sh
-./configure --prefix=${VENDOR_INSTALL_PREFIX} --includedir=${VENDOR_INSTALL_PREFIX}/include/libevent
+./configure --prefix=${VENDOR_INSTALL_PREFIX} --includedir=${VENDOR_INSTALL_PREFIX}/include/libevent --disable-openssl
 make -j10 ;make install;
 
 # validity checking
@@ -28,11 +28,6 @@ RESULT_FILES+=("libevent_extra.a")
 RESULT_FILES+=("libevent_extra.la")
 RESULT_FILES+=("libevent_extra.so")
 RESULT_FILES+=("libevent.la")
-RESULT_FILES+=("libevent_openssl-2.1.so.7")
-RESULT_FILES+=("libevent_openssl-2.1.so.7.0.1")
-RESULT_FILES+=("libevent_openssl.a")
-RESULT_FILES+=("libevent_openssl.la")
-RESULT_FILES+=("libevent_openssl.so")
 RESULT_FILES+=("libevent_pthreads-2.1.so.7")
 RESULT_FILES+=("libevent_pthreads-2.1.so.7.0.1")
 RESULT_FILES+=("libevent_pthreads.a")
