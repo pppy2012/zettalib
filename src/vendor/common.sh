@@ -14,6 +14,7 @@ VENDOR_LIST+=("mariadb-10.6.7")
 VENDOR_LIST+=("postgresql-11.15")
 VENDOR_LIST+=("rapidjson-1.1.0")
 VENDOR_LIST+=("libevent-release-2.1.12-stable")
+VENDOR_LIST+=("boost_1_73_0")
 
 function EXISTS() (
 for file in ${RESULT_FILES[@]}
