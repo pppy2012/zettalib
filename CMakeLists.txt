@@ -34,7 +34,9 @@ target_include_directories(zettalib PUBLIC
 link_directories(${CMAKE_SOURCE_DIR}/src/vendor/vendor_output/lib)
 target_link_libraries(zettalib op_mysql procenv error zthread tool_func interval)
 
-set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/output")
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/output" CACHE PATH "..." FORCE)
+endif()
 
 INSTALL(TARGETS zettalib ARCHIVE DESTINATION lib)
 INSTALL(FILES 
