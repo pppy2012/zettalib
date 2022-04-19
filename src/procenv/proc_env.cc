@@ -46,7 +46,7 @@ namespace kunlun
       _exit(0);
     }
 
-    umask(0);
+    umask(022);
 
  /* The reason why we comment such fragement below related to trac ticket #xxx */
  // 
