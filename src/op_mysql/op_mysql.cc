@@ -64,13 +64,14 @@ void MysqlConnection::Close()
   if (mysql_raw_ != nullptr)
   {
     mysql_close(mysql_raw_);
+    delete mysql_raw_;	
     mysql_raw_ = nullptr;
   }
   return;
 }
 bool MysqlConnection::Connect()
 {
-  ENUM_MYSQL_CONNECT_TYPE connect_type = mysql_connection_option_.connect_type;
+  ENUM_SQL_CONNECT_TYPE connect_type = mysql_connection_option_.connect_type;
   if (connect_type == TCP_CONNECTION)
   {
     return ConnectImplByTcp();
@@ -280,6 +281,56 @@ bool MysqlConnection::ConnectImplByTcp()
 }
 bool MysqlConnection::ConnectImplByUnix()
 {
-  // TODO: finish ConnectImplByUnix()
-  return true;
+  if (mysql_raw_)
+  {
+    setErr("connection to mysql already established");
+    return false;
+  }
+
+  // TODO: connection option is legal
+
+  mysql_raw_ = new MYSQL;
+  mysql_init(mysql_raw_);
+
+  // set options
+  // connect timeout
+  mysql_options(
+      mysql_raw_, MYSQL_OPT_CONNECT_TIMEOUT,
+      (const void *)(&(mysql_connection_option_.connect_timeout_sec)));
+  // read/write timeout
+  mysql_options(mysql_raw_, MYSQL_OPT_READ_TIMEOUT,
+                (const void *)(&(mysql_connection_option_.timeout_sec)));
+  mysql_options(mysql_raw_, MYSQL_OPT_WRITE_TIMEOUT,
+                (const void *)(&(mysql_connection_option_.timeout_sec)));
+  // charset
+  mysql_options(mysql_raw_, MYSQL_SET_CHARSET_NAME,
+                mysql_connection_option_.charset.c_str());
+
+  // do realconnect()
+  MysqlConnectionOption op = mysql_connection_option_;
+  if (nullptr ==
+      mysql_real_connect(mysql_raw_, NULL, op.user.c_str(),
+                         op.password.c_str(),
+                         op.database.empty() ? op.database.c_str() : nullptr,
+                         0, op.file_path.c_str(), 0))
+  {
+    last_errno_ = mysql_errno(mysql_raw_);
+    setErr("mysql_real_connect faild, Errno: %d, info: %s", last_errno_,
+           mysql_error(mysql_raw_));
+    Close();
+    return false;
+  }
+
+  // connect successfully
+  // set database if exists
+  if (!op.database.empty() &&
+      mysql_select_db(mysql_raw_, op.database.c_str()) != 0)
+  {
+    last_errno_ = mysql_errno(mysql_raw_);
+    setErr("set connection default database [%s] faild, Errno: %d, info: %s",
+           op.database.c_str(), last_errno_, mysql_error(mysql_raw_));
+    Close();
+    return false;
+  }
+  return SetAutoCommit();
 }

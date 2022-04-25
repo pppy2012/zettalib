@@ -88,7 +88,7 @@ public:
     return value_array_[index];
   }
 
-  char *operator[](size_t &index) {
+  char *operator[](size_t index) {
     if (index >= fields_num_) {
       return (char *)"NULL";
     }
@@ -158,7 +158,7 @@ private:
   unsigned int fields_num_;
 };
 
-enum ENUM_MYSQL_CONNECT_TYPE {
+enum ENUM_SQL_CONNECT_TYPE {
   TCP_CONNECTION = 0,
   UNIX_DOMAIN_CONNECTION,
   UNKNOWN_CONNECTION_TYPE
@@ -166,7 +166,7 @@ enum ENUM_MYSQL_CONNECT_TYPE {
 
 // c++11
 typedef struct MysqlConnectionOption_ {
-  ENUM_MYSQL_CONNECT_TYPE connect_type = TCP_CONNECTION;
+  ENUM_SQL_CONNECT_TYPE connect_type = TCP_CONNECTION;
   string ip = "";
   string port_str = "";
   unsigned int port_num = 0;
@@ -205,7 +205,10 @@ public:
 public: // getter setter
   bool get_reconnect_support() const { return reconnect_support_; }
   void set_reconnect_support(bool reconnect) { reconnect_support_ = reconnect; }
-
+  bool IsConnected() { return (mysql_raw_ != nullptr ? true : false); }
+  int get_mysql_fd() {
+    return mysql_get_socket(mysql_raw_);
+  }
 public:
   int last_errno_;
 

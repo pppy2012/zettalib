@@ -17,4 +17,17 @@ std::vector<std::string> StringTokenize(std::string orig,
                                         const char *seperator);
 bool CheckFileExists(const char *path);
 
+template< typename... Args >
+std::string string_sprintf( const char* format, Args... args ) {
+  int length = std::snprintf( nullptr, 0, format, args... );
+  assert( length >= 0 );
+
+  char* buf = new char[length + 1];
+  std::snprintf( buf, length + 1, format, args... );
+
+  std::string str( buf );
+  delete[] buf;
+  return str;
+}
+
 } // namespace kunlun

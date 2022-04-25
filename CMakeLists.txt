@@ -16,6 +16,7 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 add_subdirectory(src/op_mysql)
+add_subdirectory(src/op_pg)
 add_subdirectory(src/zthread)
 add_subdirectory(src/procenv)
 add_subdirectory(src/error)
@@ -32,16 +33,15 @@ target_include_directories(zettalib PUBLIC
  "${PROJECT_SOURCE_DIR}/src/vendor/vendor_output/include"
 )
 link_directories(${CMAKE_SOURCE_DIR}/src/vendor/vendor_output/lib)
-target_link_libraries(zettalib op_mysql procenv error zthread tool_func interval)
+target_link_libraries(zettalib op_mysql op_pg procenv error zthread tool_func interval)
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-  set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/output" CACHE PATH "..." FORCE)
-endif()
+set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/output")
 
 INSTALL(TARGETS zettalib ARCHIVE DESTINATION lib)
 INSTALL(FILES 
   "${ERRORCUP_INSTALL_FIELS}" 
   "${OP_MYSQL_INSTALL_FIELS}" 
+  "${OP_PG_INSTALL_FIELS}" 
   "${PROJECT_SOURCE_DIR}/src/procenv/biodirectpopen.h"
   "${PROJECT_SOURCE_DIR}/src/procenv/proc_env.h"
   "${ZTHREAD_INSTALL_FIELS}" 
