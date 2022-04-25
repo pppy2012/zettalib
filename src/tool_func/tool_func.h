@@ -6,6 +6,8 @@
 */
 #include <string>
 #include <vector>
+#include <cassert>
+
 namespace kunlun {
 int GetIpFromInterface(const char *interface_name, char *addr);
 // File/Dir related
