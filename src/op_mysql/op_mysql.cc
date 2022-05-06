@@ -120,6 +120,7 @@ bool MysqlCfgFileParser::Parse() {
     bool ret = item.PasrseItem(tmp);
     if (!ret) {
       setErr("%s", item.getErr());
+      fclose(fp);
       return false;
     }
     cfg_item_map_[item.get_key()] = item.get_value();
@@ -127,8 +128,10 @@ bool MysqlCfgFileParser::Parse() {
   }
   if (cfg_item_map_.size() == 0) {
     setErr("There is no avilable config item in the given etc file");
+    fclose(fp);
     return false;
   }
+  fclose(fp);
   return true;
 }
 
