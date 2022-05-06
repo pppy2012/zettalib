@@ -40,11 +40,10 @@ public:
 private:
   bool popenImpl();
   void pclose();
-  // Get and inspect the status return by child
   bool waitStatus();
 
 public:
-  bool Launch(const char *mode);
+  bool Launch(const char *mode, bool block = true);
   int readOutputLineByLine(char *, size_t);
 
   // file descriptor

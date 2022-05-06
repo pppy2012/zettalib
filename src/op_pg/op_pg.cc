@@ -119,7 +119,8 @@ void PgResRow::init(char** value, unsigned long* lens, uint32_t field_num) {
     result_ = new charptr[field_num];
     for(uint32_t i=0; i<field_num; i++) {
         int len = lens[i];
-        if("" == value[i]) {
+        //if("" == value[i]) {
+        if(!strcmp("",value[i])) {
             result_[i] = (char*)"NULL";
         } else {
             result_[i] = new char[len+1];

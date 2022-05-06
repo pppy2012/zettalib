@@ -17,20 +17,55 @@
 #include "zettalib/errorcup.h"
 #endif
 
+#include <cassert>
 #include <map>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <vector>
-#include <cassert>
 
 // This moudler contain some operation to mysql
 
 using namespace std;
-// this class represent the MYSQL_ROW
-// all the value is convert to string
 namespace kunlun {
+
+class MysqlCfgItem : public kunlun::ErrorCup {
+  friend class MysqlCfgFileParser;
+
+public:
+  MysqlCfgItem() = default;
+  ~MysqlCfgItem() = default;
+  bool PasrseItem(const char *);
+  bool PasrseItem(const std::string &);
+  const std::string &get_key() const;
+  const std::string &get_value() const;
+
+private:
+  std::string key_;
+  std::string value_;
+  bool is_boolean_;
+};
+
+class MysqlCfgFileParser : public kunlun::ErrorCup {
+public:
+  explicit MysqlCfgFileParser(const char *etc_file_path)
+      : etc_file_path_(etc_file_path) {}
+
+  explicit MysqlCfgFileParser(std::string &etc_file_path)
+      : etc_file_path_(etc_file_path) {}
+  ~MysqlCfgFileParser() = default;
+  bool Parse();
+  bool Has_Cfg(const char *);
+  bool Has_Cfg(const std::string &);
+  const char *get_cfg_value(const char *);
+  const char *get_cfg_value(const std::string &);
+
+private:
+  std::string etc_file_path_;
+  std::map<std::string, std::string> cfg_item_map_;
+};
+
 // reprsent single row of the query result from mysql
 class MysqlResRow {
 public:
@@ -126,6 +161,9 @@ private:
   const map<string, int> &column_index_map_;
 };
 
+// this class represent the MYSQL_ROW
+// all the value is convert to string
+//
 // combination of the MysqlResRow
 class MysqlResult : public kunlun::ErrorCup {
 
@@ -206,9 +244,8 @@ public: // getter setter
   bool get_reconnect_support() const { return reconnect_support_; }
   void set_reconnect_support(bool reconnect) { reconnect_support_ = reconnect; }
   bool IsConnected() { return (mysql_raw_ != nullptr ? true : false); }
-  int get_mysql_fd() {
-    return mysql_get_socket(mysql_raw_);
-  }
+  int get_mysql_fd() { return mysql_get_socket(mysql_raw_); }
+
 public:
   int last_errno_;
 

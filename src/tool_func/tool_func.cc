@@ -21,6 +21,33 @@
 #include <vector>
 
 namespace kunlun {
+
+const std::string WHITESPACE = " \n\r\t\f\v";
+
+std::string ltrim(const std::string &s, const std::string &delimter = "") {
+  size_t start = 0;
+  if (delimter.size() == 0) {
+    start = s.find_first_not_of(WHITESPACE);
+  } else {
+    start = s.find_first_not_of(delimter);
+  }
+  return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+std::string rtrim(const std::string &s, const std::string &delimter = "") {
+  size_t end = 0;
+  if (delimter.size() == 0) {
+    end = s.find_last_not_of(WHITESPACE);
+  } else {
+    end = s.find_last_not_of(delimter);
+  }
+  return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+
+std::string trim(const std::string &s, const std::string &delimter = "") {
+  return rtrim(ltrim(s, delimter), delimter);
+}
+
 std::vector<std::string> StringTokenize(std::string orig,
                                         const char *seperator) {
   std::vector<std::string> result;

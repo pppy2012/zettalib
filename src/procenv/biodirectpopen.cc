@@ -73,7 +73,7 @@ void BiodirectPopen::closeAllFd() {
     }
   }
 }
-bool BiodirectPopen::Launch(const char *mode) {
+bool BiodirectPopen::Launch(const char *mode,bool block) {
   // parse mode
   const char *pt = mode;
   while (*pt != '\0') {
@@ -102,6 +102,7 @@ bool BiodirectPopen::Launch(const char *mode) {
     return false;
   }
 
+  wait_status_ = block;
   return popenImpl();
 }
 
@@ -252,7 +253,6 @@ int BiodirectPopen::get_chiled_status()const{
   }
   return -100;
 }
-
 bool BiodirectPopen::waitStatus() {
   pid_t ret;
   int status;

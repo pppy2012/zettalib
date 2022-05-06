@@ -4,9 +4,9 @@
   This source code is licensed under Apache 2.0 License,
   combined with Common Clause Condition 1.0, as detailed in the NOTICE file.
 */
+#include <cassert>
 #include <string>
 #include <vector>
-#include <cassert>
 
 namespace kunlun {
 int GetIpFromInterface(const char *interface_name, char *addr);
@@ -19,15 +19,19 @@ std::vector<std::string> StringTokenize(std::string orig,
                                         const char *seperator);
 bool CheckFileExists(const char *path);
 
-template< typename... Args >
-std::string string_sprintf( const char* format, Args... args ) {
-  int length = std::snprintf( nullptr, 0, format, args... );
-  assert( length >= 0 );
+std::string ltrim(const std::string &s, const std::string &delimter = "");
+std::string rtrim(const std::string &s, const std::string &delimter = "");
+std::string trim(const std::string &s, const std::string &delimter = "");
 
-  char* buf = new char[length + 1];
-  std::snprintf( buf, length + 1, format, args... );
+template <typename... Args>
+std::string string_sprintf(const char *format, Args... args) {
+  int length = std::snprintf(nullptr, 0, format, args...);
+  assert(length >= 0);
 
-  std::string str( buf );
+  char *buf = new char[length + 1];
+  std::snprintf(buf, length + 1, format, args...);
+
+  std::string str(buf);
   delete[] buf;
   return str;
 }
