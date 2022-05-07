@@ -48,6 +48,14 @@ std::string trim(const std::string &s, const std::string &delimter = "") {
   return rtrim(ltrim(s, delimter), delimter);
 }
 
+std::string GetBasePath(std::string path){
+  size_t pos = path.find_last_of("/");
+  if(pos == std::string::npos){
+    return path;
+  }
+  return path.substr(0,pos);
+}
+
 std::vector<std::string> StringTokenize(std::string orig,
                                         const char *seperator) {
   std::vector<std::string> result;

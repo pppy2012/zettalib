@@ -35,8 +35,9 @@ bool MysqlCfgItem::PasrseItem(const char *item) {
     is_boolean_ = false;
     size_t prefix_len = (size_t)(location - item);
     key_.assign(item, prefix_len);
-    value_.assign(item + prefix_len + 1, strlen(item) - prefix_len);
+    key_ = kunlun::trim(key_);
 
+    value_.assign(item + prefix_len + 1, strlen(item) - prefix_len);
     value_ = kunlun::trim(value_);
     value_ = kunlun::trim(value_, "'\"");
 
@@ -68,8 +69,9 @@ bool MysqlCfgItem::PasrseItem(const std::string &item_str) {
     is_boolean_ = false;
     size_t prefix_len = (size_t)(location - item);
     key_.assign(item, prefix_len);
-    value_.assign(item + prefix_len + 1, strlen(item) - prefix_len);
+    key_ = kunlun::trim(key_);
 
+    value_.assign(item + prefix_len + 1, strlen(item) - prefix_len);
     value_ = kunlun::trim(value_);
     value_ = kunlun::trim(value_, "'\"");
 

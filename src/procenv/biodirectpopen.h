@@ -45,6 +45,7 @@ private:
 public:
   bool Launch(const char *mode, bool block = true);
   int readOutputLineByLine(char *, size_t);
+  bool HasErrorOutput();
 
   // file descriptor
   int getWriteFd() const;

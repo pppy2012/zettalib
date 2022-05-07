@@ -73,7 +73,7 @@ void BiodirectPopen::closeAllFd() {
     }
   }
 }
-bool BiodirectPopen::Launch(const char *mode,bool block) {
+bool BiodirectPopen::Launch(const char *mode, bool block) {
   // parse mode
   const char *pt = mode;
   while (*pt != '\0') {
@@ -247,12 +247,25 @@ bool BiodirectPopen::popenImpl() {
   return false;
 }
 
-int BiodirectPopen::get_chiled_status()const{
-  if(wait_status_){
+int BiodirectPopen::get_chiled_status() const {
+  if (wait_status_) {
     return child_return_code_;
   }
   return -100;
 }
+
+bool BiodirectPopen::HasErrorOutput() {
+  std::string output = "";
+  char buff[2048] = {'\0'};
+  while (fgets(buff, 2048, read_from_stderr_fp_)) {
+    output.append(buff);
+    bzero((void *)buff, 2048);
+  }
+  setErr("%s",output.c_str());
+  return !output.empty();
+
+}
+
 bool BiodirectPopen::waitStatus() {
   pid_t ret;
   int status;
@@ -268,7 +281,12 @@ bool BiodirectPopen::waitStatus() {
       return true;
     } else if (WIFSIGNALED(status)) {
       child_return_code_ = WTERMSIG(status);
-      setErr("child is terminited by the signal %d", child_return_code_);
+      if (WCOREDUMP(status)) {
+        setErr("child is coredump related to the signal %d",
+               child_return_code_);
+      } else {
+        setErr("child is terminited by the signal %d", child_return_code_);
+      }
       return false;
     }
     setErr("child unknow error");
