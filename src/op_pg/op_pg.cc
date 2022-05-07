@@ -5,7 +5,6 @@
    combined with Common Clause Condition 1.0, as detailed in the NOTICE file.
 */
 #include "op_pg.h"
-#include "tool_func/tool_func.h"
 
 namespace kunlun 
 {
@@ -22,31 +21,34 @@ bool PGConnection::Connect() {
         return false;
     }
 
-    std::string conninfo;
-    if(pg_connection_option_.connection_type == TCP_CONNECTION) {
-        conninfo = string_sprintf("host=%s port=%d user=%s password=%s connect_timeout=%d",
-            pg_connection_option_.ip.c_str(), pg_connection_option_.port_num, 
-            pg_connection_option_.user.c_str(), pg_connection_option_.password.c_str());
-        if(!pg_connection_option_.database.empty())
-            conninfo += " dbname=" + pg_connection_option_.database+" ";
-    } else {
-        std::string database;
-        if(!pg_connection_option_.database.empty())
-            database = pg_connection_option_.database;
-        else
-            database = "postgres";
-        conninfo = string_sprintf("postgres://%s:%s@/%s?unix_sock=%s", pg_connection_option_.user.c_str(),
-            pg_connection_option_.password.c_str(), database.c_str(), pg_connection_option_.sock_path.c_str());
-    }
+    //std::string conninfo;
+    char conninfo[1024] = {0};
+    std::string host;
+    if(pg_connection_option_.connection_type == TCP_CONNECTION)
+        host = pg_connection_option_.ip;
+    else
+        host = pg_connection_option_.sock_path;
     
-    pg_conn_ = PQconnectdb(conninfo.c_str());
+    std::string database;
+    if(!pg_connection_option_.database.empty())
+        database = pg_connection_option_.database;
+    else
+        database = "postgres";
+    
+    snprintf(conninfo, 1024, "host=%s port=%d user=%s password=%s connect_timeout=%d dbname=%s", 
+                host.c_str(),pg_connection_option_.port_num,
+                pg_connection_option_.user.c_str(), pg_connection_option_.password.c_str(), 
+                pg_connection_option_.connect_timeout, database.c_str());
+    
+    pg_conn_ = PQconnectdb(conninfo);
     if(!pg_conn_) {
-        setErr("PQconnectdb error by conninfo: %s", conninfo.c_str());
+        setErr("PQconnectdb error by conninfo: %s", conninfo);
         return false;
     }
 
     if(PQstatus(pg_conn_) != CONNECTION_OK) {
-        setErr("Connection to database failed: %s, conninfo: %s", PQerrorMessage(pg_conn_), conninfo.c_str());
+        setErr("Connection to database failed: %s, conninfo: %s", 
+                PQerrorMessage(pg_conn_), conninfo);
         PQfinish(pg_conn_);
         pg_conn_ = nullptr;
         return false;
@@ -78,11 +80,11 @@ int PGConnection::ExecuteQuery(const char* sql_stmt, PgResult* pgResult, bool fo
 
     //for insert/update/delete...
     if(status == PGRES_COMMAND_OK) {
-        if(!pgResult->Parse(res))
-            return -1;
-    } else if(status == PGRES_TUPLES_OK) {
         char* affected_num = PQcmdTuples(res);
         pgResult->SetAffectedNum(atoi(affected_num));
+    } else if(status == PGRES_TUPLES_OK) {
+        if(!pgResult->Parse(res))
+            return -1;
     } else {
         char *errnum = PQresultErrorField(res, PG_DIAG_SQLSTATE);
         if(strcmp(errnum, "08006") == 0 ||
@@ -119,8 +121,7 @@ void PgResRow::init(char** value, unsigned long* lens, uint32_t field_num) {
     result_ = new charptr[field_num];
     for(uint32_t i=0; i<field_num; i++) {
         int len = lens[i];
-        //if("" == value[i]) {
-        if(!strcmp("",value[i])) {
+        if("" == value[i]) {
             result_[i] = (char*)"NULL";
         } else {
             result_[i] = new char[len+1];

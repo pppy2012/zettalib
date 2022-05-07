@@ -44,6 +44,7 @@ INSTALL(FILES
   "${OP_PG_INSTALL_FIELS}" 
   "${PROJECT_SOURCE_DIR}/src/procenv/biodirectpopen.h"
   "${PROJECT_SOURCE_DIR}/src/procenv/proc_env.h"
+  "${PROJECT_SOURCE_DIR}/src/op_log/op_log.h"
   "${ZTHREAD_INSTALL_FIELS}" 
   "${TOOL_FUNC_INSTALL_FIELS}" 
   "${INTERVAL_INSTALL_FIELS}" 

@@ -5,8 +5,8 @@
    combined with Common Clause Condition 1.0, as detailed in the NOTICE file.
 */
 
-#ifndef _CLUSTER_MGR_OP_PG_H_
-#define _CLUSTER_MGR_OP_PG_H_
+#ifndef _OP_PG_H_
+#define _OP_PG_H_
 #include <vector>
 #include <map>
 #include <assert.h>
