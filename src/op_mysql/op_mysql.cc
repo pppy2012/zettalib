@@ -357,6 +357,7 @@ bool MysqlConnection::ConnectImplByTcp() {
   // charset
   mysql_options(mysql_raw_, MYSQL_SET_CHARSET_NAME,
                 mysql_connection_option_.charset.c_str());
+  mysql_options(mysql_raw_,MYSQL_DEFAULT_AUTH, "mysql_native_password");
 
   // do realconnect()
   MysqlConnectionOption op = mysql_connection_option_;
