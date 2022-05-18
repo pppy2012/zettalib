@@ -19,6 +19,7 @@
 
 #include <cassert>
 #include <map>
+#include <memory>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,42 +30,6 @@
 
 using namespace std;
 namespace kunlun {
-
-class MysqlCfgItem : public kunlun::ErrorCup {
-  friend class MysqlCfgFileParser;
-
-public:
-  MysqlCfgItem() = default;
-  ~MysqlCfgItem() = default;
-  bool PasrseItem(const char *);
-  bool PasrseItem(const std::string &);
-  const std::string &get_key() const;
-  const std::string &get_value() const;
-
-private:
-  std::string key_;
-  std::string value_;
-  bool is_boolean_;
-};
-
-class MysqlCfgFileParser : public kunlun::ErrorCup {
-public:
-  explicit MysqlCfgFileParser(const char *etc_file_path)
-      : etc_file_path_(etc_file_path) {}
-
-  explicit MysqlCfgFileParser(std::string &etc_file_path)
-      : etc_file_path_(etc_file_path) {}
-  ~MysqlCfgFileParser() = default;
-  bool Parse();
-  bool Has_Cfg(const char *);
-  bool Has_Cfg(const std::string &);
-  const char *get_cfg_value(const char *);
-  const char *get_cfg_value(const std::string &);
-
-private:
-  std::string etc_file_path_;
-  std::map<std::string, std::string> cfg_item_map_;
-};
 
 // reprsent single row of the query result from mysql
 class MysqlResRow {
@@ -225,7 +190,7 @@ public: // constructor
   explicit MysqlConnection(MysqlConnectionOption option)
       : last_errno_(0), mysql_raw_(nullptr), reconnect_support_(true),
         mysql_connection_option_(option) {}
-  ~MysqlConnection() { Close(); }
+  virtual ~MysqlConnection() { Close(); }
 
 public:
   bool Connect();
@@ -258,6 +223,47 @@ private:
   MYSQL *mysql_raw_;
   bool reconnect_support_;
   MysqlConnectionOption mysql_connection_option_;
+};
+
+class MgrMysqlConnection : public kunlun::ErrorCup {
+public:
+  MgrMysqlConnection(std::string &group_seeds, std::string &user_name,
+                     std::string &password)
+      : group_seeds_(group_seeds), user_(user_name), passwd_(password),
+        master_(nullptr){};
+  virtual ~MgrMysqlConnection() = default;
+  bool init();
+  // if return false, means no master is avilable in given seeds
+  virtual bool refreshMaster();
+
+  MysqlConnection *get_master();
+
+private:
+  bool parseSeeds(std::vector<std::string> &);
+  virtual bool isValidPrimary(MysqlConnection *);
+
+private:
+  std::string group_seeds_;
+  std::string user_;
+  std::string passwd_;
+  // key: ip_port
+  std::map<std::string, std::unique_ptr<MysqlConnectionOption>>
+      mgr_member_options_;
+  // key: ip_port
+  std::map<std::string, std::unique_ptr<MysqlConnection>> mgr_member_conn_;
+  MysqlConnection *master_;
+};
+
+class StorageShardConnection : public MgrMysqlConnection {
+  typedef kunlun::MgrMysqlConnection super;
+
+public:
+  explicit StorageShardConnection(std::string &group_seeds,
+                                  std::string &user_name, std::string &password)
+      : super(group_seeds, user_name, password){};
+  virtual ~StorageShardConnection(){};
+  bool isValidPrimary(MysqlConnection *) override;
+
 };
 
 } // namespace kunlun

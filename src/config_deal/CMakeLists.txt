@@ -1,0 +1,11 @@
+file(GLOB CONFIG_DEAL_SRC ${CMAKE_CURRENT_SOURCE_DIR}/*.cc)
+file(GLOB CONFIG_DEAL_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+set(CONFIG_DEAL_INSTALL_FIELS "${CONFIG_DEAL_HEADER}" CACHE INTERNAL "VAR")
+set(CONFIG_DEAL_SOURCE_FIELS "${CONFIG_DEAL_SRC}" CACHE INTERNAL "VAR")
+
+add_library(config_deal OBJECT ${CONFIG_DEAL_SRC} ${CONFIG_DEAL_HEADER})
+target_include_directories(config_deal INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(config_deal PUBLIC 
+  "${PROJECT_SOURCE_DIR}/src"
+  "${PROJECT_SOURCE_DIR}/src/vendor/vendor_output/include"
+  )

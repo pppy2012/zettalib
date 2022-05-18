@@ -14,144 +14,12 @@
 #else
 #include "zettalib/tool_func.h"
 #endif
+#include <memory>
 #include <sys/types.h>
+#include <vector>
 
 using namespace kunlun;
 using namespace std;
-
-bool MysqlCfgItem::PasrseItem(const char *item) {
-
-  const char *location = strstr(item, "=");
-
-  if (location == nullptr) {
-    is_boolean_ = true;
-    key_ = item;
-    value_ = "";
-    if (key_.empty()) {
-      setErr("key is empty");
-      return false;
-    }
-  } else {
-    is_boolean_ = false;
-    size_t prefix_len = (size_t)(location - item);
-    key_.assign(item, prefix_len);
-    key_ = kunlun::trim(key_);
-
-    value_.assign(item + prefix_len + 1, strlen(item) - prefix_len);
-    value_ = kunlun::trim(value_);
-    value_ = kunlun::trim(value_, "'\"");
-
-    if (key_.empty()) {
-      setErr("key is empty");
-      return false;
-    }
-    if (value_.empty()) {
-      setErr("value is empty");
-      return false;
-    }
-  }
-  return true;
-}
-bool MysqlCfgItem::PasrseItem(const std::string &item_str) {
-
-  const char *item = item_str.c_str();
-  const char *location = strstr(item, "=");
-
-  if (location == nullptr) {
-    is_boolean_ = true;
-    key_ = item;
-    value_ = "";
-    if (key_.empty()) {
-      setErr("key is empty");
-      return false;
-    }
-  } else {
-    is_boolean_ = false;
-    size_t prefix_len = (size_t)(location - item);
-    key_.assign(item, prefix_len);
-    key_ = kunlun::trim(key_);
-
-    value_.assign(item + prefix_len + 1, strlen(item) - prefix_len);
-    value_ = kunlun::trim(value_);
-    value_ = kunlun::trim(value_, "'\"");
-
-    if (key_.empty()) {
-      setErr("key is empty");
-      return false;
-    }
-    if (value_.empty()) {
-      setErr("value is empty");
-      return false;
-    }
-  }
-  return true;
-}
-const std::string &MysqlCfgItem::get_key() const { return key_; }
-const std::string &MysqlCfgItem::get_value() const { return value_; }
-
-bool MysqlCfgFileParser::Parse() {
-  struct stat sb;
-  int ret = stat(etc_file_path_.c_str(), &sb);
-  if (ret) {
-    setErr("Etc file path: %s is invalid, %s", etc_file_path_.c_str(),
-           strerror(errno));
-    return false;
-  }
-  FILE *fp = fopen(etc_file_path_.c_str(), "r");
-  if (fp == nullptr) {
-    setErr("fopen() etc file %s failed, %s", etc_file_path_.c_str(),
-           strerror(errno));
-    return false;
-  }
-  char line_buff[4096] = {'\0'};
-  while (line_buff == fgets(line_buff, 4096, fp)) {
-    std::string tmp = line_buff;
-    tmp = kunlun::trim(tmp);
-    if (tmp.empty()) {
-      // empty line
-      continue;
-    }
-    size_t pos1 = tmp.find_first_of("#");
-    size_t pos2 = tmp.find_first_of("[");
-    if (pos1 == 0 || pos2 == 0) {
-      // Comments or config block identifier
-      bzero((void *)(line_buff), 4096);
-      continue;
-    }
-    MysqlCfgItem item;
-    bool ret = item.PasrseItem(tmp);
-    if (!ret) {
-      setErr("%s", item.getErr());
-      fclose(fp);
-      return false;
-    }
-    cfg_item_map_[item.get_key()] = item.get_value();
-    bzero((void *)(line_buff), 4096);
-  }
-  if (cfg_item_map_.size() == 0) {
-    setErr("There is no avilable config item in the given etc file");
-    fclose(fp);
-    return false;
-  }
-  fclose(fp);
-  return true;
-}
-
-bool MysqlCfgFileParser::Has_Cfg(const char *key) {
-  return cfg_item_map_.find(key) != cfg_item_map_.end();
-}
-bool MysqlCfgFileParser::Has_Cfg(const std::string &key) {
-  return cfg_item_map_.find(key) != cfg_item_map_.end();
-}
-
-const char *MysqlCfgFileParser::get_cfg_value(const char *key) {
-  auto iter = cfg_item_map_.find(key);
-  return (iter->second).c_str();
-}
-const char *MysqlCfgFileParser::get_cfg_value(const std::string &key) {
-  auto iter = cfg_item_map_.find(key);
-  return (iter->second).c_str();
-}
 
 bool MysqlResult::Parse(MYSQL_RES *raw_mysql_res) {
   raw_mysql_res_ = raw_mysql_res;
@@ -357,7 +225,7 @@ bool MysqlConnection::ConnectImplByTcp() {
   // charset
   mysql_options(mysql_raw_, MYSQL_SET_CHARSET_NAME,
                 mysql_connection_option_.charset.c_str());
-  mysql_options(mysql_raw_,MYSQL_DEFAULT_AUTH, "mysql_native_password");
+  mysql_options(mysql_raw_, MYSQL_DEFAULT_AUTH, "mysql_native_password");
 
   // do realconnect()
   MysqlConnectionOption op = mysql_connection_option_;
@@ -434,4 +302,153 @@ bool MysqlConnection::ConnectImplByUnix() {
     return false;
   }
   return SetAutoCommit();
+}
+
+bool MgrMysqlConnection::parseSeeds(std::vector<std::string> &container) {
+
+  if (user_.empty()) {
+    setErr("username is empty");
+    return false;
+  }
+
+  if (passwd_.empty()) {
+    setErr("password is empty");
+    return false;
+  }
+
+  auto iter = container.begin();
+  for (; iter != container.end(); iter++) {
+    auto item = (*iter);
+    auto ip_port = kunlun::StringTokenize(item, ":");
+    if (ip_port.size() != 2) {
+      setErr("group seeds: %s misformate", group_seeds_.c_str());
+      return false;
+    }
+    std::unique_ptr<MysqlConnectionOption> ptr(new MysqlConnectionOption);
+    ptr->ip = ip_port[0];       // ip
+    ptr->port_str = ip_port[1]; // port
+    ptr->port_num = (unsigned int)(::atoi(ip_port[1].c_str()));
+    ptr->user = user_;
+    ptr->password = passwd_;
+
+    auto i = mgr_member_options_.find(*iter);
+    if (i == mgr_member_options_.end()) {
+      mgr_member_options_[*iter] = std::move(ptr);
+    } else {
+      setErr("mgr member in the group seeds: %s has the overlap hostaddr",
+             group_seeds_.c_str());
+      return false;
+    }
+  }
+  return true;
+}
+
+bool MgrMysqlConnection::isValidPrimary(MysqlConnection *conn) {
+  char sql[4096] = {'\0'};
+  snprintf(sql, 4096,
+           "select MEMBER_HOST, MEMBER_PORT from "
+           "performance_schema.replication_group_members where MEMBER_ROLE = "
+           "'PRIMARY' and MEMBER_STATE = 'ONLINE");
+  kunlun::MysqlResult result;
+  int ret = conn->ExcuteQuery(sql, &result);
+  // only support single master mgr mode
+  if (ret != 0 || result.GetResultLinesNum() != 1) {
+    return false;
+  }
+  return true;
+}
+
+bool MgrMysqlConnection::refreshMaster() {
+
+  int master_found = false;
+  auto iter = mgr_member_conn_.begin();
+  for (; iter != mgr_member_conn_.end(); ++iter) {
+    MysqlConnection *conn = iter->second.get();
+    if ((conn->CheckIsConnected()) && // will do reconnect
+        isValidPrimary(conn)) {
+      master_found = true;
+      master_ = conn;
+      break;
+    }
+  }
+  if (!master_found) {
+    setErr("no avilable master in current group");
+  }
+  return master_found;
+}
+MysqlConnection *MgrMysqlConnection::get_master() { return master_; }
+
+bool MgrMysqlConnection::init() {
+  if (group_seeds_.empty()) {
+    setErr("group seeds is empty");
+    return false;
+  }
+  auto container = kunlun::StringTokenize(group_seeds_, ",");
+
+  if (!parseSeeds(container)) {
+    return false;
+  }
+
+  // init member mysql connection handler
+  auto iter = mgr_member_options_.begin();
+  for (; iter != mgr_member_options_.end(); iter++) {
+    MysqlConnectionOption *option = (iter->second).get();
+    std::unique_ptr<MysqlConnection> ptr(new MysqlConnection(*option));
+    ptr->Connect();
+    mgr_member_conn_[iter->first] = std::move(ptr);
+  }
+
+  return refreshMaster();
+}
+
+bool StorageShardConnection::isValidPrimary(MysqlConnection *conn) {
+  if (!(conn->CheckIsConnected())) { // will do reconnect
+    setErr("current connection is not connected");
+    return false;
+  }
+
+  char sql_buff[1024] = {'\0'};
+  snprintf(sql_buff, 1024, "set autocommit = 0");
+  kunlun::MysqlResult result;
+  int ret = conn->ExcuteQuery(sql_buff, &result);
+  if (ret != 0) {
+    setErr("error info :%s", conn->getErr());
+    return false;
+  }
+  bzero((void *)sql_buff, 1024);
+  result.Clean();
+
+  // begin
+  snprintf(sql_buff, 1024, "begin");
+  ret = conn->ExcuteQuery(sql_buff, &result);
+  if (ret != 0) {
+    setErr("error info :%s", conn->getErr());
+    return false;
+  }
+  bzero((void *)sql_buff, 1024);
+  result.Clean();
+
+  // insert tmp value to the kunlun_sysdb.cluster_info
+  snprintf(
+      sql_buff, 1024,
+      "insert into kunlun_sysdb.cluster_info values (100,'tmpname','tmpname')");
+  ret = conn->ExcuteQuery(sql_buff, &result);
+  if (ret <= 0) {
+    setErr("error info :%s", conn->getErr());
+
+    conn->Close();
+    return false;
+  }
+
+  // rollback
+  snprintf(sql_buff, 1024, "rollback");
+  ret = conn->ExcuteQuery(sql_buff, &result);
+  if (ret != 0) {
+    setErr("error info :%s", conn->getErr());
+
+    conn->Close();
+    return false;
+  }
+
+  return true;
 }

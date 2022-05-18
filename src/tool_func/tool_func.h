@@ -16,9 +16,10 @@ std::string ConvertToAbsolutePath(const char *path);
 std::string StringReplace(const std::string &orig, const std::string &sbstr,
                           const std::string &dest);
 std::string GetBasePath(std::string);
-std::vector<std::string> StringTokenize(std::string orig,
-                                        const char *seperator);
+std::vector<std::string>
+StringTokenize(std::string s, const std::string delims, size_t num = 0);
 bool CheckFileExists(const char *path);
+bool contains ( const std::string& s , const std::string& substr ) ;
 
 std::string ltrim(const std::string &s, const std::string &delimter = "");
 std::string rtrim(const std::string &s, const std::string &delimter = "");

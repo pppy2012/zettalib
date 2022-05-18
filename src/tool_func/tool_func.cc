@@ -22,6 +22,9 @@
 
 namespace kunlun {
 
+bool contains(const std::string &s, const std::string &substr) {
+  return s.find(substr) != std::string::npos;
+}
 const std::string WHITESPACE = " \n\r\t\f\v";
 
 std::string ltrim(const std::string &s, const std::string &delimter = "") {
@@ -48,24 +51,41 @@ std::string trim(const std::string &s, const std::string &delimter = "") {
   return rtrim(ltrim(s, delimter), delimter);
 }
 
-std::string GetBasePath(std::string path){
+std::string GetBasePath(std::string path) {
   size_t pos = path.find_last_of("/");
-  if(pos == std::string::npos){
+  if (pos == std::string::npos) {
     return path;
   }
-  return path.substr(0,pos);
+  return path.substr(0, pos);
 }
 
-std::vector<std::string> StringTokenize(std::string orig,
-                                        const char *seperator) {
-  std::vector<std::string> result;
-  char *str = const_cast<char *>(orig.c_str());
-  char *token = strtok(str, seperator);
-  while (token != nullptr) {
-    result.push_back(std::string(token));
-    token = strtok(nullptr, seperator);
+std::vector<std::string> StringTokenize(std::string s,
+                                        const std::string delims, size_t num) {
+  size_t offset = 0;
+  std::vector<std::string> tokens;
+
+  while (true) {
+    size_t i = s.find_first_not_of(delims, offset);
+    if (std::string::npos == i) {
+      break;
+    }
+
+    size_t j = s.find_first_of(delims, i);
+    if (std::string::npos == j) {
+      tokens.push_back(s.substr(i));
+      offset = s.length();
+      break;
+    }
+
+    if (tokens.size() + 1 == num) {
+      tokens.push_back(s.substr(i));
+      break;
+    } else {
+      tokens.push_back(s.substr(i, j - i));
+      offset = j;
+    }
   }
-  return result;
+  return tokens;
 }
 int GetIpFromInterface(const char *interface_name, char *addr) {
   int fd;
