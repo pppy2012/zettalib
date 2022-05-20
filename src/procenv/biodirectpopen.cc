@@ -64,12 +64,15 @@ void BiodirectPopen::closeAllFd() {
   for (int i = 0; i < 2; i++) {
     if (stdout_parent_read_fd[i] >= 0) {
       ::close(stdout_parent_read_fd[i]);
+      stdout_parent_read_fd[i] = -1;
     }
     if (stderr_parent_read_fd[i] >= 0) {
       ::close(stderr_parent_read_fd[i]);
+      stderr_parent_read_fd[i] = -1;
     }
     if (stdin_parent_write_fd[i] >= 0) {
       ::close(stdin_parent_write_fd[i]);
+      stdin_parent_write_fd[i] = -1;
     }
   }
 }

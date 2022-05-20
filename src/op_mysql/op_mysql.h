@@ -203,7 +203,7 @@ public:
   // sql_stmt: update / delete / insert , return >0 , 0 , <0 respectively,
   // successfuly, no effect or  failed
   int ExcuteQuery(const char *sql_stmt, MysqlResult *result_set,
-                  bool force_retry = false);
+                  bool force_retry = true);
 
 public: // getter setter
   bool get_reconnect_support() const { return reconnect_support_; }

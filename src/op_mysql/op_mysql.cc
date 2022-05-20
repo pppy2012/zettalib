@@ -429,9 +429,9 @@ bool StorageShardConnection::isValidPrimary(MysqlConnection *conn) {
   result.Clean();
 
   // insert tmp value to the kunlun_sysdb.cluster_info
-  snprintf(
-      sql_buff, 1024,
-      "insert into kunlun_sysdb.cluster_info values (100,'tmpname','tmpname')");
+  snprintf(sql_buff, 1024,
+           "insert into kunlun_sysdb.cluster_info (id,cluster_name,shard_name) "
+           "values (100,'tmpname','tmpname')");
   ret = conn->ExcuteQuery(sql_buff, &result);
   if (ret <= 0) {
     setErr("error info :%s", conn->getErr());
