@@ -192,6 +192,7 @@ bool BiodirectPopen::popenImpl() {
         return false;
       }
       ::close(stdout_parent_read_fd[1]);
+      stdout_parent_read_fd[1] = -1;
 
       read_from_stderr_fp_ = fdopen(stderr_parent_read_fd[0], "r");
       if (read_from_stderr_fp_ == nullptr) {
@@ -200,6 +201,7 @@ bool BiodirectPopen::popenImpl() {
         return false;
       }
       ::close(stderr_parent_read_fd[1]);
+      stderr_parent_read_fd[1] = -1;
     }
 
     if (write_to_child_) {
@@ -210,6 +212,7 @@ bool BiodirectPopen::popenImpl() {
         return false;
       }
       ::close(stdin_parent_write_fd[0]);
+      stdin_parent_write_fd[0] = -1;
     }
 
     if (wait_status_) {

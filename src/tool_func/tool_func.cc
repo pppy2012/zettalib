@@ -10,6 +10,7 @@
 #include <limits.h>
 #include <net/if.h>
 #include <netinet/in.h>
+#include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,8 +60,8 @@ std::string GetBasePath(std::string path) {
   return path.substr(0, pos);
 }
 
-std::vector<std::string> StringTokenize(std::string s,
-                                        const std::string delims, size_t num) {
+std::vector<std::string> StringTokenize(std::string s, const std::string delims,
+                                        size_t num) {
   size_t offset = 0;
   std::vector<std::string> tokens;
 
@@ -161,6 +162,15 @@ bool CheckFileExists(const char *path) {
     return true;
   }
   return false;
+}
+
+std::string GetProcessOwnerName() {
+  uid_t uid = geteuid();
+  struct passwd * pwd_t = getpwuid(uid);
+  if(pwd_t == nullptr){
+    return "";
+  }
+  return std::string ((const char *)(pwd_t->pw_name));
 }
 
 } // namespace kunlun

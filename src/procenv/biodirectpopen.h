@@ -58,7 +58,9 @@ public:
   FILE *getReadStdErrFp() const;
 
   int get_chiled_status() const;
-
+  pid_t get_child_pid() const {
+  	return child_pid_;
+  }
   void closeAllFd();
 
 private:

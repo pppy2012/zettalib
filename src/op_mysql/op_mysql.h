@@ -147,6 +147,12 @@ public:
   }
   unsigned int GetResultLinesNum() const { return result_vec_.size(); }
   unsigned int get_fields_num() const { return fields_num_; }
+  bool check_column_name(const std::string &column_name) {
+    if (column_index_map_.find(column_name) != column_index_map_.end())
+      return true;
+
+    return false;
+  }
 
 private:
   // forbid copy
@@ -204,12 +210,21 @@ public:
   // successfuly, no effect or  failed
   int ExcuteQuery(const char *sql_stmt, MysqlResult *result_set,
                   bool force_retry = true);
+  bool doBegin();
+  bool doCommit();
+  bool doRollBack();
 
 public: // getter setter
   bool get_reconnect_support() const { return reconnect_support_; }
   void set_reconnect_support(bool reconnect) { reconnect_support_ = reconnect; }
   bool IsConnected() { return (mysql_raw_ != nullptr ? true : false); }
-  int get_mysql_fd() { return mysql_get_socket(mysql_raw_); }
+  int get_mysql_fd() { return mysql_fd_; }
+  std::string get_mysql_host() {
+    return (mysql_connection_option_.ip + "_" +
+            mysql_connection_option_.port_str);
+  }
+  std::string get_ip() { return mysql_connection_option_.ip; }
+  unsigned int get_port_num() { return mysql_connection_option_.port_num; }
 
 public:
   int last_errno_;
@@ -222,6 +237,7 @@ private:
 private:
   MYSQL *mysql_raw_;
   bool reconnect_support_;
+  int mysql_fd_;
   MysqlConnectionOption mysql_connection_option_;
 };
 
@@ -263,7 +279,6 @@ public:
       : super(group_seeds, user_name, password){};
   virtual ~StorageShardConnection(){};
   bool isValidPrimary(MysqlConnection *) override;
-
 };
 
 } // namespace kunlun

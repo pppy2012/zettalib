@@ -1,0 +1,9 @@
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/spdlog.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/package.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/package_source.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/edit_cache.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/rebuild_cache.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/list_install_components.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/install.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/install/local.dir
+/data1/home/summerxwu/zettalib/src/vendor/spdlog/build/CMakeFiles/install/strip.dir

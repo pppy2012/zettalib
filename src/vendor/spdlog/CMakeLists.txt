@@ -62,7 +62,8 @@ option(SPDLOG_BUILD_SHARED "Build shared library" OFF)
 option(SPDLOG_ENABLE_PCH "Build static or shared library using precompiled header to speed up compilation time" OFF)
 
 # example options
-option(SPDLOG_BUILD_EXAMPLE "Build example" ${SPDLOG_MASTER_PROJECT})
+#option(SPDLOG_BUILD_EXAMPLE "Build example" ${SPDLOG_MASTER_PROJECT})
+option(SPDLOG_BUILD_EXAMPLE "Build example" OFF)
 option(SPDLOG_BUILD_EXAMPLE_HO "Build header only example" OFF)
 
 # testing options

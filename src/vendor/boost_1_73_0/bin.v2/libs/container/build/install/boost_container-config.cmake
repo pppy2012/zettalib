@@ -13,10 +13,10 @@ endif()
 get_filename_component(_BOOST_CMAKEDIR "${CMAKE_CURRENT_LIST_DIR}/../" REALPATH)
 
 # If the computed and the original directories are symlink-equivalent, use original
-if(EXISTS "/home/summerxwu/code/kunlun/zettalib/src/vendor/vendor_output/lib/cmake")
-  get_filename_component(_BOOST_CMAKEDIR_ORIGINAL "/home/summerxwu/code/kunlun/zettalib/src/vendor/vendor_output/lib/cmake" REALPATH)
+if(EXISTS "/data1/home/summerxwu/zettalib/src/vendor/vendor_output/lib/cmake")
+  get_filename_component(_BOOST_CMAKEDIR_ORIGINAL "/data1/home/summerxwu/zettalib/src/vendor/vendor_output/lib/cmake" REALPATH)
   if(_BOOST_CMAKEDIR STREQUAL _BOOST_CMAKEDIR_ORIGINAL)
-    set(_BOOST_CMAKEDIR "/home/summerxwu/code/kunlun/zettalib/src/vendor/vendor_output/lib/cmake")
+    set(_BOOST_CMAKEDIR "/data1/home/summerxwu/zettalib/src/vendor/vendor_output/lib/cmake")
   endif()
   unset(_BOOST_CMAKEDIR_ORIGINAL)
 endif()

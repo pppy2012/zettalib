@@ -1,4 +1,4 @@
-prefix=/home/summerxwu/code/kunlun/zettalib/src/vendor/vendor_output
+prefix=/data1/home/summerxwu/zettalib/src/vendor/vendor_output
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

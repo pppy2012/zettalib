@@ -27,27 +27,44 @@ public:
    /*
    * set log path, log_prefix and size (MB)
    */
-   void init(const std::string& log_path, const std::string& log_prefix, int size) {
+   bool init(const std::string& log_path, const std::string& log_prefix, int size,
+               int flush_interval = 5) {
       std::string log_name= log_prefix + ".log";
-      spdlog::init_thread_pool(10240, 1);
-      auto kl_sink = std::make_shared<spdlog::sinks::kl_file_sink_mt>(log_path+"/"+log_name, 
-                              1024*1024*size, 23, 59);
+      bool ret = true;
+      try {
+         spdlog::init_thread_pool(10240, 1);
+         auto kl_sink = std::make_shared<spdlog::sinks::kl_file_sink_mt>(log_path+"/"+log_name, 
+                                 1024*1024*size, 23, 59);
 
-      std::vector<spdlog::sink_ptr> sinks {kl_sink};
-      logger_ = std::make_shared<spdlog::async_logger>(log_path+"/"+log_name, sinks.begin(), sinks.end(), 
-                  spdlog::thread_pool(),  spdlog::async_overflow_policy::overrun_oldest);
-      logger_.get()->set_pattern("%Y-%m-%d %H:%M:%S.%f <%t> [%l] [%@] %v");
-      spdlog::register_logger(logger_);
-      spdlog::flush_every(std::chrono::seconds(5));
+         std::vector<spdlog::sink_ptr> sinks {kl_sink};
+         logger_ = std::make_shared<spdlog::async_logger>(log_path+"/"+log_name, sinks.begin(), sinks.end(), 
+                     spdlog::thread_pool(),  spdlog::async_overflow_policy::overrun_oldest);
+         logger_.get()->set_pattern("%Y-%m-%d %H:%M:%S.%f <%t> [%l] [%@] %v");
+         spdlog::register_logger(logger_);
+         spdlog::flush_every(std::chrono::seconds(flush_interval));
+      } catch(...) {
+         fprintf(stderr, "start spdlog failed, so return false\n");
+         ret = false;
+      }
+
+      return ret;
    }
 
    std::shared_ptr<spdlog::async_logger> getLogger() {
       return logger_;
    }
+
+   void Flush() {
+      logger_.get()->flush();
+   }
 private:
    Op_Log() {}
    virtual ~Op_Log() {
-      spdlog::drop_all();
+      try {
+         spdlog::drop_all();
+      } catch(...) {
+         fprintf(stderr, "stop spdlog failed\n");
+      }
    }
  
 	Op_Log(const Op_Log&) = delete;

@@ -86,9 +86,9 @@ bool MysqlConnection::Connect() {
 bool MysqlConnection::SetAutoCommit() {
   char set_autocommit[1024] = {'\0'};
   if (mysql_connection_option_.autocommit) {
-    sprintf(set_autocommit, "set session autocommit = 1");
+    sprintf(set_autocommit, "set autocommit = 1");
   } else {
-    sprintf(set_autocommit, "set session autocommit = 0");
+    sprintf(set_autocommit, "set autocommit = 0");
   }
   MysqlResult res;
   int ret = ExcuteQuery(set_autocommit, &res, false);
@@ -201,6 +201,33 @@ int MysqlConnection::ExcuteQuery(const char *sql_stmt, MysqlResult *result_set,
   return QUERY_FAILD;
 }
 
+bool MysqlConnection::doBegin(){
+  kunlun::MysqlResult result;
+  int ret = this->ExcuteQuery("begin", &result);
+  if(ret < 0){
+    return false;
+  }
+  return true;
+}
+
+bool MysqlConnection::doCommit(){
+  kunlun::MysqlResult result;
+  int ret = this->ExcuteQuery("commit", &result);
+  if(ret < 0){
+    return false;
+  }
+  return true;
+}
+
+bool MysqlConnection::doRollBack(){
+  kunlun::MysqlResult result;
+  int ret = this->ExcuteQuery("rollback", &result);
+  if(ret < 0){
+    return false;
+  }
+  return true;
+}
+
 bool MysqlConnection::ConnectImplByTcp() {
   if (mysql_raw_) {
     setErr("connection to mysql already established");
@@ -233,7 +260,7 @@ bool MysqlConnection::ConnectImplByTcp() {
       mysql_real_connect(mysql_raw_, op.ip.c_str(), op.user.c_str(),
                          op.password.c_str(),
                          op.database.empty() ? op.database.c_str() : nullptr,
-                         op.port_num, NULL, 0)) {
+                         op.port_num, NULL, CLIENT_MULTI_STATEMENTS)) {
     last_errno_ = mysql_errno(mysql_raw_);
     setErr("mysql_real_connect faild, Errno: %d, info: %s", last_errno_,
            mysql_error(mysql_raw_));
@@ -251,6 +278,7 @@ bool MysqlConnection::ConnectImplByTcp() {
     Close();
     return false;
   }
+  mysql_fd_ = mysql_get_socket(mysql_raw_);
   return SetAutoCommit();
 }
 bool MysqlConnection::ConnectImplByUnix() {
@@ -283,7 +311,7 @@ bool MysqlConnection::ConnectImplByUnix() {
   if (nullptr ==
       mysql_real_connect(mysql_raw_, NULL, op.user.c_str(), op.password.c_str(),
                          op.database.empty() ? op.database.c_str() : nullptr, 0,
-                         op.file_path.c_str(), 0)) {
+                         op.file_path.c_str(), CLIENT_MULTI_STATEMENTS)) {
     last_errno_ = mysql_errno(mysql_raw_);
     setErr("mysql_real_connect faild, Errno: %d, info: %s", last_errno_,
            mysql_error(mysql_raw_));
@@ -301,6 +329,7 @@ bool MysqlConnection::ConnectImplByUnix() {
     Close();
     return false;
   }
+  mysql_fd_ = mysql_get_socket(mysql_raw_);
   return SetAutoCommit();
 }
 
@@ -330,6 +359,8 @@ bool MgrMysqlConnection::parseSeeds(std::vector<std::string> &container) {
     ptr->port_num = (unsigned int)(::atoi(ip_port[1].c_str()));
     ptr->user = user_;
     ptr->password = passwd_;
+    ptr->autocommit = true;
+    ptr->timeout_sec = 50;
 
     auto i = mgr_member_options_.find(*iter);
     if (i == mgr_member_options_.end()) {
@@ -348,7 +379,7 @@ bool MgrMysqlConnection::isValidPrimary(MysqlConnection *conn) {
   snprintf(sql, 4096,
            "select MEMBER_HOST, MEMBER_PORT from "
            "performance_schema.replication_group_members where MEMBER_ROLE = "
-           "'PRIMARY' and MEMBER_STATE = 'ONLINE");
+           "'PRIMARY' and MEMBER_STATE = 'ONLINE'");
   kunlun::MysqlResult result;
   int ret = conn->ExcuteQuery(sql, &result);
   // only support single master mgr mode
@@ -408,7 +439,7 @@ bool StorageShardConnection::isValidPrimary(MysqlConnection *conn) {
   }
 
   char sql_buff[1024] = {'\0'};
-  snprintf(sql_buff, 1024, "set autocommit = 0");
+  snprintf(sql_buff, 1024, "set autocommit = 1");
   kunlun::MysqlResult result;
   int ret = conn->ExcuteQuery(sql_buff, &result);
   if (ret != 0) {
@@ -430,8 +461,8 @@ bool StorageShardConnection::isValidPrimary(MysqlConnection *conn) {
 
   // insert tmp value to the kunlun_sysdb.cluster_info
   snprintf(sql_buff, 1024,
-           "insert into kunlun_sysdb.cluster_info (id,cluster_name,shard_name) "
-           "values (100,'tmpname','tmpname')");
+           "insert into kunlun_sysdb.cluster_info (cluster_name,shard_name) "
+           "values ('tmpname','tmpname')");
   ret = conn->ExcuteQuery(sql_buff, &result);
   if (ret <= 0) {
     setErr("error info :%s", conn->getErr());
